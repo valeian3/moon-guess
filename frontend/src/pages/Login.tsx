@@ -4,6 +4,8 @@ import * as Yup from 'yup'
 
 import { useAuth, usePageTitle } from 'hooks/hooks'
 
+import { showToast } from 'utils/utils'
+
 function Login() {
   usePageTitle('Login')
   const { signin, setUser } = useAuth()
@@ -25,7 +27,11 @@ function Login() {
       signin(values)
         .then((res) => {
           setUser(res.data.user)
+          showToast('success', 'Login successful!')
           navigate(from, { replace: true })
+        })
+        .catch((err) => {
+          showToast('error', err.response?.data?.message || 'Login failed')
         })
         .finally(() => setSubmitting(false))
     },

@@ -4,12 +4,15 @@ import ThemeSelector from 'components/ThemeSelector'
 
 import { useAuth } from 'hooks/hooks'
 
+import { showToast } from 'utils/utils'
+
 function Header() {
   const { signout } = useAuth()
   const navigate = useNavigate()
 
   const handleSignout = () => {
     signout().then(() => {
+      showToast('success', 'Signed out successfully')
       navigate('/login')
     })
   }

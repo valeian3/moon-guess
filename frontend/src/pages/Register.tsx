@@ -6,6 +6,8 @@ import { Eye, EyeOff } from 'lucide-react'
 
 import { useAuth, usePageTitle } from 'hooks/hooks'
 
+import { showToast } from 'utils/utils'
+
 function Register() {
   usePageTitle('Register')
   const { register } = useAuth()
@@ -37,10 +39,12 @@ function Register() {
       })
         .then((res) => {
           if (res.status === 201) {
+            showToast('success', 'Register successful')
             navigate('/login', { replace: true })
           }
         })
         .catch((error) => {
+          showToast('error', 'Registration failed')
           if (error.response?.data?.message.includes('Username')) {
             setFieldError('username', error.response.data.message)
           } else {

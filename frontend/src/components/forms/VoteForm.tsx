@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 
@@ -6,9 +5,10 @@ import { votes } from 'services/api'
 
 import { useAuth } from 'hooks/hooks'
 
+import { showToast } from 'utils/utils'
+
 function VoteForm() {
   const { user } = useAuth()
-  const [error, setError] = useState<string>('')
 
   const formik = useFormik({
     initialValues: {
@@ -23,18 +23,21 @@ function VoteForm() {
     onSubmit: (values, { resetForm }) => {
       const formattedPrice = parseInt(values.price.replace(/\s+/g, ''), 10)
       if (isNaN(formattedPrice)) {
-        setError('Invalid price entered')
+        showToast('error', 'Invalid price entered')
         return
       }
       votes
         .postVote({ userId: user?.id, price: Number(formattedPrice) })
         .then(() => {
-          setError('')
-          resetForm()
+          showToast('success', 'Vote submitted successfully')
         })
         .catch((err) => {
-          setError(err.response?.data?.message || 'Something went wrong')
+          showToast(
+            'error',
+            err.response?.data?.message || 'Something went wrong'
+          )
         })
+        .finally(() => resetForm())
     },
   })
 
@@ -68,7 +71,6 @@ function VoteForm() {
       {formik.touched.price && formik.errors.price && (
         <p className="text-sm text-red-500">{formik.errors.price}</p>
       )}
-      {error && <p className="text-sm text-red-500">{error}</p>}
 
       <div className="flex w-full justify-end">
         <button
