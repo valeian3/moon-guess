@@ -5,13 +5,9 @@ import { useLocalStorage } from 'hooks/hooks'
 
 // layout
 import Layout from 'layout/Layout'
-import AuthLayout from 'layout/AuthLayout'
 
-// Private pages
+// pages
 const Dashboard = lazy(() => import('pages/Dashboard'))
-
-// Public pages
-const Public = lazy(() => import('pages/Public'))
 const Login = lazy(() => import('pages/Login'))
 const Register = lazy(() => import('pages/Register'))
 const PageNotFound = lazy(() => import('pages/PageNotFound'))
@@ -31,20 +27,12 @@ function AppRoutes() {
   return (
     <Suspense fallback={<Loading />}>
       <Routes>
-        {/* Public routes */}
         <Route element={<Layout />}>
-          <Route path="/" element={<Public />} />
+          <Route path="/" element={<Dashboard />} />
         </Route>
+
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-
-        {/* Private routes */}
-        <Route element={<AuthLayout />}>
-          <Route element={<Layout />}>
-            <Route path="/dashboard" element={<Dashboard />} />
-          </Route>
-        </Route>
-
         <Route path="/*" element={<PageNotFound />} />
       </Routes>
     </Suspense>

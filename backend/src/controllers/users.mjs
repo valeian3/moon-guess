@@ -5,7 +5,7 @@ import { User } from '../models/users.mjs';
 
 import { USER_ROLES } from '../utils/constants.mjs';
 
-const getAllUsers = async (req, res) => {
+const getUsers = async (req, res) => {
 	try {
 		const users = await User.find({});
 
@@ -36,7 +36,7 @@ const getUser = async (req, res) => {
 	}
 };
 
-const createNewUser = async (req, res) => {
+const createUser = async (req, res) => {
 	try {
 		const { username, password } = req.body;
 
@@ -128,4 +128,4 @@ const deleteUser = async (req, res) => {
 	}
 };
 
-export default { getAllUsers, getUser, createNewUser, updateUser, deleteUser };
+export default { getUsers, getUser, createUser, updateUser, deleteUser };

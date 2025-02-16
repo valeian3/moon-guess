@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 import { Vote } from '../models/votes.mjs';
 import { User } from '../models/users.mjs';
 
-const getAllVotes = async (req, res) => {
+const getVotes = async (req, res) => {
 	try {
 		const votes = await Vote.find({});
 
@@ -16,7 +16,7 @@ const getAllVotes = async (req, res) => {
 	}
 };
 
-const sendVote = async (req, res) => {
+const createVote = async (req, res) => {
 	const { userId, price } = req.body;
 
 	try {
@@ -47,4 +47,4 @@ const sendVote = async (req, res) => {
 	}
 };
 
-export default { getAllVotes, sendVote };
+export default { getVotes, createVote };

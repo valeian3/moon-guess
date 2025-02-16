@@ -7,7 +7,7 @@ import logger from './middleware/logger.mjs';
 import notFound from './middleware/notFound.mjs';
 import errorHandler from './middleware/error.mjs';
 
-import createAdminUser from './controllers/adminController.mjs';
+import createAdminUser from './controllers/admin.mjs';
 
 import routes from './routes/index.mjs';
 

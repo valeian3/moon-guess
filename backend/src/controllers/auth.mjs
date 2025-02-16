@@ -4,14 +4,9 @@ import jwt from 'jsonwebtoken';
 import { User } from '../models/users.mjs';
 import { USER_ROLES } from '../utils/constants.mjs';
 
-const login = async (req, res) => {
+const authenticateUser = async (req, res) => {
 	try {
 		const { username, password } = req.body;
-
-		if (!username || !password)
-			return res
-				.status(400)
-				.json({ message: 'Username and password are required' });
 
 		const user = await User.findOne({ username: username });
 		if (!user)
@@ -29,7 +24,7 @@ const login = async (req, res) => {
 			.status(200)
 			.json({
 				message: 'Login successful',
-				user: { username: user.username, role: user.role },
+				user: { id: user.id, username: user.username, role: user.role },
 			});
 	} catch (error) {
 		return res
@@ -38,7 +33,7 @@ const login = async (req, res) => {
 	}
 };
 
-const logout = (req, res) => {
+const logoutUser = (req, res) => {
 	const token = req.cookies.token;
 
 	if (!token) return res.status(200).json({ message: 'Already logged out' });
@@ -47,14 +42,9 @@ const logout = (req, res) => {
 	return res.status(200).json({ message: 'Logout successful' });
 };
 
-const register = async (req, res) => {
+const registerUser = async (req, res) => {
 	try {
 		const { username, password } = req.body;
-
-		if (!username || !password)
-			return res
-				.status(400)
-				.json({ message: 'Username and password are required' });
 
 		const existingUser = await User.findOne({ username });
 		if (existingUser)
@@ -86,7 +76,7 @@ const register = async (req, res) => {
 	}
 };
 
-const getUser = async (req, res) => {
+const getAuthenticatedUser = async (req, res) => {
 	try {
 		const token = req.cookies.token;
 		if (!token) return res.status(401).json({ message: 'Unauthorized access' });
@@ -113,4 +103,4 @@ const getUser = async (req, res) => {
 	}
 };
 
-export default { login, logout, register, getUser };
+export default { authenticateUser, logoutUser, registerUser, getAuthenticatedUser };

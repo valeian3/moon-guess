@@ -1,4 +1,4 @@
-import { ReactNode, FC, useMemo, useState } from 'react'
+import { ReactNode, FC, useMemo, useState, useEffect } from 'react'
 
 import { userAuth } from 'services/api'
 
@@ -14,6 +14,17 @@ export const AuthProvider: FC<{
   children: ReactNode
 }> = ({ children }) => {
   const [user, setUser] = useState<IUserWithRoles | null>(null)
+
+  useEffect(() => {
+    if (!user)
+      userAuth
+        .getUser()
+        .then((res) => {
+          setUser(res.data.user)
+        })
+        .catch(() => {})
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   async function register(credentials: IRegisterUser) {
     return userAuth.register(credentials)

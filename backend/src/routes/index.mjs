@@ -4,12 +4,12 @@ import usersRouter from './users.mjs';
 import authRouter from './auth.mjs';
 import votesRouter from './votes.mjs';
 
-import { validateToken } from '../middleware/auth.mjs';
+import { tokenValidation } from '../middleware/auth.mjs';
 
 const router = Router();
 
-router.use('/', authRouter);
-router.use('/users', validateToken, usersRouter);
-router.use('/', validateToken, votesRouter);
+router.use('/auth', authRouter);
+router.use('/users', tokenValidation, usersRouter);
+router.use('/votes', tokenValidation, votesRouter);
 
 export default router;

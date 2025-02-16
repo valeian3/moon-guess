@@ -4,9 +4,7 @@ import { urlParam } from 'constants/constants'
 
 import type { ILoginUser, IRegisterUser } from 'types/types'
 
-const BASE_URL = import.meta.env.VITE_APP_BACKEND_API
-
-console.log(BASE_URL)
+const BASE_URL = 'http://localhost:3000/api/v1'
 
 if (!BASE_URL) {
   throw new Error('BASE_URL is not set in the environment variables')
@@ -24,12 +22,13 @@ apiInstance.interceptors.response.use(
   (response) => response,
   (error) => {
     if (axios.isAxiosError(error)) {
+      const currentPath = window.location.pathname
       const from = new URLSearchParams(location.search).get(
         urlParam.redirectFrom
       )
 
       if (error?.response?.status === 401) {
-        if (!from)
+        if (!from && currentPath !== '/login')
           window.location.replace(
             `/login?${urlParam.redirectFrom}=${encodeURIComponent(window.location.pathname + window.location.search)}`
           )
@@ -41,16 +40,16 @@ apiInstance.interceptors.response.use(
 
 const userAuth = {
   async register(credentials: IRegisterUser) {
-    return await apiInstance.post('/register', credentials)
+    return await apiInstance.post('/auth/register', credentials)
   },
   async signin(credentials: ILoginUser) {
-    return await apiInstance.post('/login', credentials)
+    return await apiInstance.post('/auth/login', credentials)
   },
   async signout() {
-    return await apiInstance.post('/logout')
+    return await apiInstance.post('/auth/logout')
   },
   async getUser() {
-    return await apiInstance.get('/me')
+    return await apiInstance.get('/auth/user')
   },
 }
 
@@ -67,8 +66,8 @@ const votes = {
   async getVotes() {
     return await apiInstance.get('/votes')
   },
-  async sendVote(vote: { userId: string | undefined; price: number }) {
-    return await apiInstance.post(`/vote`, vote)
+  async postVote(vote: { userId: string | undefined; price: number }) {
+    return await apiInstance.post(`/votes`, vote)
   },
 }
 

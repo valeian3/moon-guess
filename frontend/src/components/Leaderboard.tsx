@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react'
 
-import { useAuth } from 'hooks/hooks'
-
 import { votes } from 'services/api'
+import { formatDate } from 'utils/utils'
+import VoteForm from 'components/forms/VoteForm'
 
 const Leaderboard = () => {
-  const { user } = useAuth()
-
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [localVotes, setLocalVotes] = useState<any[]>([])
   const [daysLeft, setDaysLeft] = useState<number | null>(null)
@@ -22,31 +20,16 @@ const Leaderboard = () => {
     setDaysLeft(differenceInDays)
 
     votes.getVotes().then((res) => {
-      setLocalVotes(res.data)
+      setLocalVotes(res.data.votes)
     })
   }, [])
 
-  const handleCastVote = () => {
-    votes.sendVote({ userId: user?.id, price: 12000 })
-  }
-
-  console.log(localVotes)
-
   return (
     <div className="mx-auto rounded-lg text-white">
-      <div className="flex w-full justify-end">
-        <div className="mb-4">
-          <button
-            onClick={handleCastVote}
-            className="rounded-lg bg-indigo-700 px-4 py-2 text-white transition-all duration-200 hover:bg-indigo-600 dark:hover:bg-indigo-800"
-          >
-            Vote Now
-          </button>
-        </div>
-      </div>
+      <VoteForm />
       <div className="flex w-full justify-between">
         <h2 className="mb-4 text-xl font-semibold text-gray-900 dark:text-gray-100">
-          Leaderboard
+          Predictions
         </h2>
         {daysLeft !== null && (
           <div className="flex items-center">
@@ -69,6 +52,9 @@ const Leaderboard = () => {
             <th className="border border-gray-300 p-2 text-gray-800 dark:border-gray-500 dark:text-gray-100">
               Price (USD)
             </th>
+            <th className="border border-gray-300 p-2 text-gray-800 dark:border-gray-500 dark:text-gray-100">
+              Voted at
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -82,6 +68,9 @@ const Leaderboard = () => {
               </td>
               <td className="border border-gray-300 p-2 text-gray-800 dark:border-gray-500 dark:text-gray-100">
                 {row.price}
+              </td>
+              <td className="border border-gray-300 p-2 text-gray-800 dark:border-gray-500 dark:text-gray-100">
+                {formatDate(row.createdAt)}
               </td>
             </tr>
           ))}

@@ -1,17 +1,18 @@
 import { Router } from 'express';
 
-import usersController from '../controllers/usersControllers.mjs';
+import userController from '../controllers/users.mjs';
 
 const router = Router();
 
 router
 	.route('/')
-	.get(usersController.getAllUsers)
-	.post(usersController.createNewUser);
+	.get(userController.getUsers)
+	.post(userController.createUser);
+
 router
 	.route('/:id')
-	.get(usersController.getUser)
-	.patch(usersController.updateUser)
-	.delete(usersController.deleteUser);
+	.get(userController.getUser)
+	.patch(userController.updateUser)
+	.delete(userController.deleteUser);
 
 export default router;

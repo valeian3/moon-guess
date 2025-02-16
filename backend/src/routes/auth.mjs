@@ -1,13 +1,16 @@
 import { Router } from 'express';
 
-import { validateLogin } from '../middleware/auth.mjs';
-import authControllers from '../controllers/authControllers.mjs';
+import { loginValidation, registerValidation } from '../middleware/auth.mjs';
+import authController from '../controllers/auth.mjs';
 
 const router = Router();
 
-router.route('/login').post(validateLogin, authControllers.login);
-router.route('/logout').post(authControllers.logout);
-router.route('/register').post(authControllers.register);
-router.route('/me').get(authControllers.getUser);
+// Authentication routes
+router.post('/login', loginValidation, authController.authenticateUser);
+router.post('/logout', authController.logoutUser);
+router.post('/register', registerValidation, authController.registerUser);
+
+// Get authenticated user
+router.get('/user', authController.getAuthenticatedUser);
 
 export default router;

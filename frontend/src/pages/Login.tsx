@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
 
 import { useAuth, usePageTitle } from 'hooks/hooks'
 
@@ -9,19 +10,26 @@ function Login() {
   const navigate = useNavigate()
   const location = useLocation()
 
-  const from: string = location.state?.from?.pathname || '/dashboard'
+  const from: string = location.state?.from?.pathname || '/'
 
-  const [username, setUsername] = useState<string>('')
-  const [password, setPassword] = useState<string>('')
-
-  function handleLogin(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault()
-
-    signin({ username: username, password: password }).then((res) => {
-      setUser(res.data.user)
-      navigate(from, { replace: true })
-    })
-  }
+  const formik = useFormik({
+    initialValues: {
+      username: '',
+      password: '',
+    },
+    validationSchema: Yup.object({
+      username: Yup.string().required('Username is required'),
+      password: Yup.string().required('Password is required'),
+    }),
+    onSubmit: (values, { setSubmitting }) => {
+      signin(values)
+        .then((res) => {
+          setUser(res.data.user)
+          navigate(from, { replace: true })
+        })
+        .finally(() => setSubmitting(false))
+    },
+  })
 
   return (
     <div className="flex h-screen w-full flex-col justify-center bg-white dark:bg-slate-800">
@@ -29,9 +37,8 @@ function Login() {
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-gray-200">
           Sign in to your account
         </h2>
-        <p className="max-w mt-2 text-center text-sm text-gray-600">
+        <p className="mt-2 text-center text-sm text-gray-600">
           {'Or '}
-
           <Link
             to="/register"
             className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300"
@@ -43,10 +50,7 @@ function Login() {
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="tablet:shadow bg-slate-100 px-4 py-8 sm:rounded-lg sm:px-10 dark:bg-slate-700">
-          <form
-            className="space-y-6"
-            onSubmit={(e: React.FormEvent<HTMLFormElement>) => handleLogin(e)}
-          >
+          <form className="space-y-6" onSubmit={formik.handleSubmit}>
             <div>
               <label
                 htmlFor="username"
@@ -60,14 +64,21 @@ function Login() {
                   name="username"
                   type="text"
                   autoComplete="username"
-                  required
-                  className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none sm:text-sm dark:text-gray-200"
+                  value={formik.values.username}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  className={`relative block w-full rounded-md border px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:outline-none sm:text-sm dark:text-gray-200 ${
+                    formik.touched.username && formik.errors.username
+                      ? 'border-red-500 placeholder-red-400 focus:border-red-500 focus:ring-red-500'
+                      : 'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:placeholder-gray-400'
+                  }`}
                   placeholder="Enter your username"
-                  value={username}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setUsername(e.target.value)
-                  }
                 />
+                {formik.touched.username && formik.errors.username && (
+                  <p className="mt-1 text-sm text-red-500">
+                    {formik.errors.username}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -84,20 +95,33 @@ function Login() {
                   name="password"
                   type="password"
                   autoComplete="current-password"
-                  required
-                  className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none sm:text-sm dark:text-gray-200"
+                  value={formik.values.password}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  className={`relative block w-full rounded-md border px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:outline-none sm:text-sm dark:text-gray-200 ${
+                    formik.touched.password && formik.errors.password
+                      ? 'border-red-500 placeholder-red-400 focus:border-red-500 focus:ring-red-500'
+                      : 'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:placeholder-gray-400'
+                  }`}
                   placeholder="Enter your password"
-                  value={password}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setPassword(e.target.value)
-                  }
                 />
+                {formik.touched.password && formik.errors.password && (
+                  <p className="mt-1 text-sm text-red-500">
+                    {formik.errors.password}
+                  </p>
+                )}
               </div>
             </div>
+
             <div>
               <button
                 type="submit"
-                className="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none"
+                disabled={!formik.isValid || formik.isSubmitting}
+                className={`group relative flex w-full justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-white transition-all duration-200 ${
+                  formik.isSubmitting || !formik.isValid
+                    ? 'cursor-not-allowed bg-gray-400'
+                    : 'bg-indigo-600 hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none'
+                }`}
               >
                 Sign in
               </button>

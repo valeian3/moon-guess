@@ -1,11 +1,9 @@
 import { Router } from 'express';
 
-import votesController from '../controllers/votesControllers.mjs';
+import voteController from '../controllers/votes.mjs';
 
 const router = Router();
 
-router.route('/votes').get(votesController.getAllVotes);
-
-router.route('/vote').post(votesController.sendVote);
+router.route('/').get(voteController.getVotes).post(voteController.createVote);
 
 export default router;
