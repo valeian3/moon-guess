@@ -30,3 +30,8 @@ export interface AuthContextProps {
 export const AuthContext = createContext<AuthContextProps | undefined>(
   undefined
 )
+export const QueryContext = createContext<undefined>(undefined)
+
+export interface IVotesList {
+  username: string
+}

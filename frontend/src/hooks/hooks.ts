@@ -1,4 +1,13 @@
 import { useEffect, useState, useContext } from 'react'
+import {
+  useQuery,
+  // UseQueryOptions,
+  // UseQueryResult,
+} from '@tanstack/react-query'
+
+import { votesKeys } from 'services/query-key-factory'
+
+import { votes } from 'services/api'
 
 import { AuthContext } from 'types/types'
 
@@ -46,4 +55,11 @@ export const usePageTitle = (title?: string) => {
       window.document.title = title
     }
   }, [title])
+}
+
+export const useVotesList = () => {
+  return useQuery({
+    queryKey: votesKeys.all,
+    queryFn: () => votes.getVotesList(),
+  })
 }

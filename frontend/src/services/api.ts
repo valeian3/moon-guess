@@ -63,7 +63,7 @@ const users = {
 }
 
 const votes = {
-  async getVotes() {
+  async getVotesList() {
     return await apiInstance.get('/votes')
   },
   async postVote(vote: { userId: string | undefined; price: number }) {

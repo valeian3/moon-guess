@@ -10,6 +10,7 @@ import Layout from 'layout/Layout'
 
 // pages
 const Dashboard = lazy(() => import('pages/Dashboard'))
+const Vote = lazy(() => import('pages/Vote'))
 const Login = lazy(() => import('pages/Login'))
 const Register = lazy(() => import('pages/Register'))
 const PageNotFound = lazy(() => import('pages/PageNotFound'))
@@ -31,6 +32,7 @@ function AppRoutes() {
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<Dashboard />} />
+          <Route path="/vote" element={<Vote />} />
         </Route>
 
         <Route path="/login" element={<Login />} />

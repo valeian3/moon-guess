@@ -44,7 +44,7 @@ function VoteForm() {
   return (
     <form
       onSubmit={formik.handleSubmit}
-      className="mb-4 flex w-full flex-col gap-2"
+      className="flex w-full max-w-[800px] flex-col gap-2 rounded-lg border-2 border-gray-500 p-4"
     >
       <label
         htmlFor="price"

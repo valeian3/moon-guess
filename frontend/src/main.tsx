@@ -6,14 +6,17 @@ import 'index.css'
 import AppRoutes from 'routes/AppRoutes'
 
 // contexts
+import { QueryProvider } from 'contexts/QueryProvider'
 import { AuthProvider } from 'contexts/AuthProvider'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
-      <AuthProvider>
-        <AppRoutes />
-      </AuthProvider>
+      <QueryProvider>
+        <AuthProvider>
+          <AppRoutes />
+        </AuthProvider>
+      </QueryProvider>
     </BrowserRouter>
   </StrictMode>
 )
