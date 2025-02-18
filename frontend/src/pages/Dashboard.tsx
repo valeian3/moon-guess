@@ -4,6 +4,8 @@ import { useAuth, usePageTitle } from 'hooks/hooks'
 
 import Leaderboard from 'components/Leaderboard'
 
+import { CircleUserRound } from 'lucide-react'
+
 function Dashboard() {
   const navigate = useNavigate()
   const { user } = useAuth()
@@ -14,17 +16,20 @@ function Dashboard() {
   }
 
   return (
-    <div className="flex w-full flex-col items-center">
+    <div className="flex h-full w-full flex-col items-center">
       <div className="flex w-full justify-start">
-        <h1 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
-          {`Welcome back ${user?.username} `}
-        </h1>
+        <div className="alert alert-info alert-soft">
+          <CircleUserRound />
+          <span className="text-lg font-medium">
+            {`Welcome back, ${user?.username}!`}
+          </span>
+        </div>
       </div>
 
-      <div className="mt-10 flex w-full justify-start">
+      <div className="mt-10 mb-4 flex w-full justify-start">
         <button
+          className="btn btn-soft btn-primary md:btn-md lg:btn-lg"
           onClick={handleVote}
-          className="rounded-lg bg-indigo-700 px-4 py-2 text-white transition-all duration-200 hover:bg-indigo-600 dark:hover:bg-indigo-800"
         >
           Vote
         </button>

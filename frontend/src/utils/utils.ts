@@ -1,6 +1,10 @@
 import { toast } from 'react-toastify'
 
 export const formatDate = (isoString: string): string => {
+  if (!isoString || isNaN(Date.parse(isoString))) {
+    return 'Invalid date'
+  }
+
   const date = new Date(isoString)
   const day = String(date.getUTCDate()).padStart(2, '0')
   const month = String(date.getUTCMonth() + 1).padStart(2, '0') // Months are 0-based

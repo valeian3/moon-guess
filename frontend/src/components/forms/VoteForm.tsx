@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 
@@ -9,6 +10,7 @@ import { showToast } from 'utils/utils'
 
 function VoteForm() {
   const { user } = useAuth()
+  const navigate = useNavigate()
 
   const formik = useFormik({
     initialValues: {
@@ -30,6 +32,7 @@ function VoteForm() {
         .postVote({ userId: user?.id, price: Number(formattedPrice) })
         .then(() => {
           showToast('success', 'Vote submitted successfully')
+          navigate('/')
         })
         .catch((err) => {
           showToast(
@@ -42,46 +45,38 @@ function VoteForm() {
   })
 
   return (
-    <form
-      onSubmit={formik.handleSubmit}
-      className="flex w-full max-w-[800px] flex-col gap-2 rounded-lg border-2 border-gray-500 p-4"
-    >
-      <label
-        htmlFor="price"
-        className="text-sm font-medium text-gray-900 dark:text-white"
-      >
-        Vote
-      </label>
+    <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-xl border p-4">
+      <legend className="fieldset-legend">Submit your vote</legend>
 
-      <input
-        type="text"
-        id="price"
-        name="price"
-        value={formik.values.price}
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-        className={`block w-full rounded-lg border p-2.5 text-sm transition-all ${
-          formik.touched.price && formik.errors.price
-            ? 'border-red-500 bg-red-50 text-red-900 placeholder-red-700 focus:border-red-500 focus:ring-red-500'
-            : 'border-gray-300 bg-white text-gray-900 placeholder-gray-500 focus:border-gray-500 focus:ring-gray-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400'
-        } `}
-        placeholder="Enter price"
-      />
+      <form className="space-y-4" onSubmit={formik.handleSubmit}>
+        <label className="label">Vote</label>
+        <input
+          type="text"
+          id="price"
+          name="price"
+          value={formik.values.price}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          className={`input md:input-md lg:input-lg w-full transition-all duration-200 ${
+            formik.touched.price && formik.errors.price
+              ? 'input-error'
+              : 'input-neutral'
+          } `}
+          placeholder="E.g. 15000"
+        />
+        {formik.touched.price && formik.errors.price && (
+          <p className="fieldset-label text-error">{formik.errors.price}</p>
+        )}
 
-      {formik.touched.price && formik.errors.price && (
-        <p className="text-sm text-red-500">{formik.errors.price}</p>
-      )}
-
-      <div className="flex w-full justify-end">
         <button
+          className="btn btn-soft btn-block btn-primary md:btn-md lg:btn-lg"
           type="submit"
-          className="rounded-lg bg-indigo-700 px-4 py-2 text-white transition-all duration-200 hover:bg-indigo-600 dark:hover:bg-indigo-800"
           disabled={!formik.isValid || formik.isSubmitting}
         >
           Vote Now
         </button>
-      </div>
-    </form>
+      </form>
+    </fieldset>
   )
 }
 

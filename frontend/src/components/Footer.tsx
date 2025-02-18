@@ -1,7 +1,7 @@
 export default function Footer() {
   return (
-    <div className="w-full text-center text-sm text-gray-400">
-      <p>&copy; 2025. Predictions</p>
-    </div>
+    <footer className="footer footer-center bg-base-200 border-base-300 text-base-content border-t p-4">
+      <p>&copy; 2025 Crypto Predictions. All rights reserved.</p>
+    </footer>
   )
 }
