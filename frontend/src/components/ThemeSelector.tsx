@@ -7,10 +7,10 @@ function ThemeSelector() {
 
   const toggleTheme = () => {
     if (theme === 'dark') {
-      document.documentElement.classList.remove('dark')
+      document.querySelector('html')?.setAttribute('data-theme', 'light')
       setTheme('light')
     } else {
-      document.documentElement.classList.add('dark')
+      document.querySelector('html')?.setAttribute('data-theme', 'dark')
       setTheme('dark')
     }
   }
@@ -20,13 +20,13 @@ function ThemeSelector() {
         <Sun
           onClick={toggleTheme}
           size={40}
-          className="hover:text-primary-500 tablet:block rounded-md p-2 text-yellow-500 hover:bg-gray-300 dark:hover:bg-gray-600"
+          className="text-warning hover:bg-base-300 rounded-md p-2"
         />
       ) : (
         <Moon
           onClick={toggleTheme}
           size={40}
-          className="hover:text-primary-500 tablet:block rounded-md p-2 text-violet-700 hover:bg-gray-300 dark:text-violet-400 dark:hover:bg-gray-600"
+          className="text-info-content hover:bg-base-300 rounded-md p-2"
         />
       )}
     </>

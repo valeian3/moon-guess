@@ -21,8 +21,8 @@ function AppRoutes() {
   const [theme] = useLocalStorage<string>('theme', 'dark')
 
   useEffect(() => {
-    document.documentElement.classList.remove('light', 'dark')
-    document.documentElement.classList.add(theme)
+    document.querySelector('html')?.removeAttribute('data-theme')
+    document.querySelector('html')?.setAttribute('data-theme', theme)
   }, [theme])
 
   return (

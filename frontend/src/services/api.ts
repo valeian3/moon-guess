@@ -2,7 +2,7 @@ import axios from 'axios'
 
 import { urlParam } from 'constants/constants'
 
-import type { ILoginUser, IRegisterUser } from 'types/types'
+import type { ILoginUser, IRegisterUser, IVotesList } from 'types/types'
 
 const BASE_URL = 'http://localhost:3000/api/v1'
 
@@ -63,8 +63,14 @@ const users = {
 }
 
 const votes = {
-  async getVotesList() {
-    return await apiInstance.get('/votes')
+  async getVotesList(): Promise<IVotesList> {
+    try {
+      const res = await apiInstance.get('/votes')
+      return res.data.votes
+    } catch (err) {
+      console.error('Failed to fetch votes:', err)
+      throw new Error('Unable to fetch votes.')
+    }
   },
   async postVote(vote: { userId: string | undefined; price: number }) {
     return await apiInstance.post(`/votes`, vote)

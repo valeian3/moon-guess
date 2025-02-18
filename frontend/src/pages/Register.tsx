@@ -51,9 +51,12 @@ function Register() {
   })
 
   return (
-    <div className="dark:bg-base-100 flex h-screen w-full flex-col items-center justify-center bg-white">
+    <div className="bg-base-100 flex h-screen w-full flex-col items-center justify-center">
       <div className="card bg-base-200 mt-8 w-full max-w-xl shrink-0 shadow-2xl sm:w-full">
         <div className="card-body">
+          <h2 className="text-base-content text-center text-3xl font-extrabold">
+            Create an account
+          </h2>
           <form className="space-y-6" onSubmit={formik.handleSubmit}>
             <fieldset className="fieldset">
               <legend className="fieldset-legend">Username</legend>
@@ -68,7 +71,7 @@ function Register() {
                 className={`input md:input-md lg:input-lg w-full transition-all duration-200 ${
                   formik.touched.username && formik.errors.username
                     ? 'input-error'
-                    : 'input-neutral'
+                    : 'input-primary'
                 } `}
                 placeholder="Enter your username"
               />
@@ -92,7 +95,7 @@ function Register() {
                 className={`input md:input-md lg:input-lg w-full transition-all duration-200 ${
                   formik.touched.password && formik.errors.password
                     ? 'input-error'
-                    : 'input-neutral'
+                    : 'input-primary'
                 } `}
                 placeholder="Enter your password"
               />
@@ -117,7 +120,7 @@ function Register() {
                   formik.touched.confirmPassword &&
                   formik.errors.confirmPassword
                     ? 'input-error'
-                    : 'input-neutral'
+                    : 'input-primary'
                 } `}
                 placeholder="Confirm your password"
               />

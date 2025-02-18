@@ -45,11 +45,11 @@ function VoteForm() {
   })
 
   return (
-    <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-xl border p-4">
+    <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-sm border p-4">
       <legend className="fieldset-legend">Submit your vote</legend>
 
       <form className="space-y-4" onSubmit={formik.handleSubmit}>
-        <label className="label">Vote</label>
+        <label className="label text-base-content">Vote</label>
         <input
           type="text"
           id="price"
@@ -60,7 +60,7 @@ function VoteForm() {
           className={`input md:input-md lg:input-lg w-full transition-all duration-200 ${
             formik.touched.price && formik.errors.price
               ? 'input-error'
-              : 'input-neutral'
+              : 'input-primary'
           } `}
           placeholder="E.g. 15000"
         />

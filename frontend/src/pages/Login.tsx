@@ -38,9 +38,9 @@ function Login() {
   })
 
   return (
-    <div className="dark:bg-base-100 flex h-screen w-full flex-col items-center justify-center bg-white">
+    <div className="bg-base-200 flex h-screen w-full flex-col items-center justify-center">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="text-base-300 dark:text-primary-content mt-6 text-center text-3xl font-extrabold">
+        <h2 className="text-base-content mt-6 text-center text-3xl font-extrabold">
           Sign in to your account
         </h2>
         <p className="text-base-content mt-2 text-center text-sm">
@@ -67,14 +67,12 @@ function Login() {
                 className={`input md:input-md lg:input-lg w-full transition-all duration-200 ${
                   formik.touched.username && formik.errors.username
                     ? 'input-error'
-                    : 'input-neutral'
+                    : 'input-primary'
                 } `}
                 placeholder="Enter your username"
               />
               {formik.touched.username && formik.errors.username && (
-                <p className="fieldset-label text-error">
-                  {formik.errors.username}
-                </p>
+                <p className="text-error text-sm">{formik.errors.username}</p>
               )}
             </fieldset>
 
@@ -91,20 +89,18 @@ function Login() {
                 className={`input md:input-md lg:input-lg w-full transition-all duration-200 ${
                   formik.touched.password && formik.errors.password
                     ? 'input-error'
-                    : 'input-neutral'
+                    : 'input-primary'
                 } `}
                 placeholder="Enter your password"
               />
               {formik.touched.password && formik.errors.password && (
-                <p className="fieldset-label text-error">
-                  {formik.errors.password}
-                </p>
+                <p className="text-error text-sm">{formik.errors.password}</p>
               )}
             </fieldset>
 
             <fieldset className="fieldset">
               <div>
-                <a className="link link-hover">Forgot password?</a>
+                <a className="link link-primary link-hover">Forgot password?</a>
               </div>
               <button
                 className="btn btn-soft btn-block btn-primary md:btn-md lg:btn-lg"

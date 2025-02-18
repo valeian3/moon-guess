@@ -32,6 +32,13 @@ export const AuthContext = createContext<AuthContextProps | undefined>(
 )
 export const QueryContext = createContext<undefined>(undefined)
 
-export interface IVotesList {
+export interface IVote {
+  _id: number
   username: string
+  price: number
+  createdAt: string
+  updatedAt: string
+  userId: string
 }
+
+export type IVotesList = IVote[]

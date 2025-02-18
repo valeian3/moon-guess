@@ -1,7 +1,8 @@
 import { useVotesList } from 'hooks/hooks'
+import { IVote } from 'types/types'
 import { formatDate } from 'utils/utils'
 
-const Leaderboard = () => {
+const PredictionsTable = () => {
   const { data, isLoading, error, isError } = useVotesList()
 
   if (isLoading)
@@ -20,12 +21,9 @@ const Leaderboard = () => {
     return <span className="dark:text-info">{errorMessage}</span>
   }
 
-  console.log(data)
-
   return (
     <div className="rounded-box border-base-content/5 bg-base-100 w-full overflow-x-auto border">
       <table className="table">
-        {/* head */}
         <thead>
           <tr>
             <th>#</th>
@@ -35,7 +33,7 @@ const Leaderboard = () => {
           </tr>
         </thead>
         <tbody>
-          {data?.data?.votes.map((item: any, index: number) => (
+          {data.map((item: IVote, index: number) => (
             <tr key={item._id} className="hover:bg-base-300">
               <th>{index + 1}</th>
               <td>{item.username || 'Anonymous'}</td>
@@ -54,4 +52,4 @@ const Leaderboard = () => {
   )
 }
 
-export default Leaderboard
+export default PredictionsTable

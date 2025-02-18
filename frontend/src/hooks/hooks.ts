@@ -9,7 +9,7 @@ import { votesKeys } from 'services/query-key-factory'
 
 import { votes } from 'services/api'
 
-import { AuthContext } from 'types/types'
+import { AuthContext, IVotesList } from 'types/types'
 
 export const useAuth = () => {
   const context = useContext(AuthContext)
@@ -58,7 +58,7 @@ export const usePageTitle = (title?: string) => {
 }
 
 export const useVotesList = () => {
-  return useQuery({
+  return useQuery<IVotesList>({
     queryKey: votesKeys.all,
     queryFn: () => votes.getVotesList(),
   })

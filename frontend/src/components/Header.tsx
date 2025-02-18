@@ -19,12 +19,9 @@ function Header() {
 
   return (
     <>
-      <header className="dark:bg-base-200 z-10 flex h-24 justify-center bg-white py-4 shadow-md md:px-6">
+      <header className="bg-base-200 z-10 flex h-24 justify-center py-4 shadow-md md:px-6">
         <nav className="flex h-full w-4/5 max-w-[1200px] items-center justify-between gap-4">
-          <Link
-            to="/"
-            className="tablet:text-3xl text-primary hover:bg-primary/10 text-xl"
-          >
+          <Link to="/" className="tablet:text-3xl text-primary text-xl">
             <span>Crypto Predictions</span>
           </Link>
 

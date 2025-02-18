@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { useAuth, usePageTitle } from 'hooks/hooks'
 
-import Leaderboard from 'components/Leaderboard'
+import PredictionsTable from 'components/tables/PredictionsTable'
 
 import { CircleUserRound } from 'lucide-react'
 
@@ -34,7 +34,7 @@ function Dashboard() {
           Vote
         </button>
       </div>
-      <Leaderboard />
+      <PredictionsTable />
     </div>
   )
 }
