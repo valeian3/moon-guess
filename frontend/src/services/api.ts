@@ -1,10 +1,10 @@
 import axios from 'axios'
 
-import { urlParam } from 'constants/constants'
+import { URL_PARAM, NO_REDIRECT_ROUTES } from 'constants/constants'
 
 import type { ILoginUser, IRegisterUser, IVotesList } from 'types/types'
 
-const BASE_URL = 'http://localhost:3000/api/v1'
+const BASE_URL = import.meta.env.VITE_APP_BACKEND_API
 
 if (!BASE_URL) {
   throw new Error('BASE_URL is not set in the environment variables')
@@ -24,13 +24,15 @@ apiInstance.interceptors.response.use(
     if (axios.isAxiosError(error)) {
       const currentPath = window.location.pathname
       const from = new URLSearchParams(location.search).get(
-        urlParam.redirectFrom
+        URL_PARAM.redirectFrom
       )
 
       if (error?.response?.status === 401) {
-        if (!from && currentPath !== '/login')
+        if (NO_REDIRECT_ROUTES.includes(currentPath))
+          return Promise.reject(error)
+        if (from)
           window.location.replace(
-            `/login?${urlParam.redirectFrom}=${encodeURIComponent(window.location.pathname + window.location.search)}`
+            `/login?${URL_PARAM.redirectFrom}=${encodeURIComponent(window.location.pathname + window.location.search)}`
           )
       }
     }
